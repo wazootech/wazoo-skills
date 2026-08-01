@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate skill frontmatter
+        run: |
+          python - <<'EOF'
+          import pathlib
+          import re
+          errors = []
+          for skill in sorted(pathlib.Path("skills").rglob("SKILL.md")):
+              text = skill.read_text()
+              match = re.match(r"^---\n(.*?)\n---", text, re.S)
+              if not match:
+                  errors.append(f"{skill}: missing frontmatter")
+                  continue
+              frontmatter = match.group(1)
+              for field in ("name", "description"):
+                  if not re.search(rf"^{field}:", frontmatter, re.M):
+                      errors.append(f"{skill}: missing '{field}' frontmatter")
+          if errors:
+              print("\n".join(errors))
+              raise SystemExit(1)
+          print("All skill frontmatter valid")
+          EOF

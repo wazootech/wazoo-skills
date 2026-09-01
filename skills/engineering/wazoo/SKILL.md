@@ -140,7 +140,7 @@ curl -s -X DELETE "https://api.wazoo.dev/v1/worlds/project-context/auth/tokens/{
 Import RDF quads (JSON array) or chunk text into a world:
 
 ```bash
-curl -s -X POST "https://worlds-api.wazoo.dev/worlds/project-context/import" \
+curl -s -X POST "https://data.wazoo.dev/worlds/project-context/import" \
   -H "Authorization: Bearer $WORLDS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -154,7 +154,7 @@ curl -s -X POST "https://worlds-api.wazoo.dev/worlds/project-context/import" \
 Search world graph memory by query text:
 
 ```bash
-curl -s -X POST "https://worlds-api.wazoo.dev/worlds/project-context/search" \
+curl -s -X POST "https://data.wazoo.dev/worlds/project-context/search" \
   -H "Authorization: Bearer $WORLDS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -168,7 +168,7 @@ curl -s -X POST "https://worlds-api.wazoo.dev/worlds/project-context/search" \
 Run graph queries over triples/quads in the world:
 
 ```bash
-curl -s -X POST "https://worlds-api.wazoo.dev/worlds/project-context/sparql" \
+curl -s -X POST "https://data.wazoo.dev/worlds/project-context/sparql" \
   -H "Authorization: Bearer $WORLDS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -181,6 +181,6 @@ curl -s -X POST "https://worlds-api.wazoo.dev/worlds/project-context/sparql" \
 Export world quads for auditing or local backup:
 
 ```bash
-curl -s -X GET "https://worlds-api.wazoo.dev/worlds/project-context/export?format=application/json&limit=100" \
+curl -s -X GET "https://data.wazoo.dev/worlds/project-context/export?format=application/json&limit=100" \
   -H "Authorization: Bearer $WORLDS_TOKEN"
 ```

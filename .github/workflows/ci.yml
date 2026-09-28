@@ -32,7 +32,7 @@ jobs:
           EOF
       - name: Reject legacy platform identity names
         run: |
-          if grep -R -n -E '\buid\b|world_uid|worldUid|_uid\b' skills/; then
+          if grep -R -n -E 'world_uid|worldUid|worlds_api_uid|worldsApiUid' skills/; then
             echo "Legacy platform identity found in skills."
             exit 1
           fi

@@ -30,3 +30,9 @@ jobs:
               raise SystemExit(1)
           print("All skill frontmatter valid")
           EOF
+      - name: Reject legacy platform identity names
+        run: |
+          if grep -R -n -E 'world_uid|worldUid|worlds_api_uid|worldsApiUid' skills/; then
+            echo "Legacy platform identity found in skills."
+            exit 1
+          fi

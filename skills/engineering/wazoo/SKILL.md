@@ -35,7 +35,11 @@ curl -s -X GET "https://api.wazoo.dev/v1/worlds" \
 
 ### Create a world
 
-Create a world with a display name. `worlds-api` mints its ID and the platform returns it as `world.id`. Set `WORLD_ID` to that value and use it in all world-specific paths below. Every resource response exposes one `id` field.
+Create a world with a display name. `worlds-api` mints one immutable
+`w_<UUIDv4>` ID. The create request has display-name and optional-region fields, with no
+caller-selected ID or slug field. The response exposes the ID as `world.id`; reuse it
+unchanged as `WORLD_ID`. Public resource objects expose `id`, and database
+primary keys use `<entity>_id`.
 
 ```bash
 curl -s -X POST "https://api.wazoo.dev/v1/worlds" \
@@ -111,7 +115,8 @@ curl -s -X POST "https://api.wazoo.dev/v1/auth/api-tokens" \
 ### Revoke a platform token
 
 ```bash
-curl -s -X DELETE "https://api.wazoo.dev/v1/auth/api-tokens/my-agent-token" \
+TOKEN_ID="<id returned when the token was created>"
+curl -s -X DELETE "https://api.wazoo.dev/v1/auth/api-tokens/$TOKEN_ID" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN"
 ```
 

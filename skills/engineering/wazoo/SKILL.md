@@ -35,27 +35,37 @@ curl -s -X GET "https://api.wazoo.dev/v1/worlds" \
 
 ### Create a world
 
+Create a world with a display name. `worlds-api` mints one immutable
+`w_<UUIDv4>` ID. The create request has display-name and optional-region fields, with no
+caller-selected ID or slug field. The response exposes the ID as `world.id`;
+reuse it unchanged as `WORLD_ID`.
+
 ```bash
 curl -s -X POST "https://api.wazoo.dev/v1/worlds" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "worldId": "project-context",
     "world": { "displayName": "Project Context Graph", "region": "auto" }
   }'
+```
+
+For the examples below, replace this sample with the `id` returned above:
+
+```bash
+export WORLD_ID="w_123e4567-e89b-42d3-a456-426614174000"
 ```
 
 ### Get world details
 
 ```bash
-curl -s -X GET "https://api.wazoo.dev/v1/worlds/project-context" \
+curl -s -X GET "https://api.wazoo.dev/v1/worlds/$WORLD_ID" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN"
 ```
 
 ### Update a world
 
 ```bash
-curl -s -X PATCH "https://api.wazoo.dev/v1/worlds/project-context" \
+curl -s -X PATCH "https://api.wazoo.dev/v1/worlds/$WORLD_ID" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -67,7 +77,7 @@ curl -s -X PATCH "https://api.wazoo.dev/v1/worlds/project-context" \
 ### Delete a world
 
 ```bash
-curl -s -X DELETE "https://api.wazoo.dev/v1/worlds/project-context" \
+curl -s -X DELETE "https://api.wazoo.dev/v1/worlds/$WORLD_ID" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN"
 ```
 
@@ -76,7 +86,7 @@ curl -s -X DELETE "https://api.wazoo.dev/v1/worlds/project-context" \
 Deletes are soft and recoverable. Restore a deleted world with undelete:
 
 ```bash
-curl -s -X POST "https://api.wazoo.dev/v1/worlds/project-context/undelete" \
+curl -s -X POST "https://api.wazoo.dev/v1/worlds/$WORLD_ID/undelete" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN"
 ```
 
@@ -111,7 +121,7 @@ curl -s -X DELETE "https://api.wazoo.dev/v1/auth/api-tokens/my-agent-token" \
 ### List world tokens
 
 ```bash
-curl -s -X GET "https://api.wazoo.dev/v1/worlds/project-context/auth/tokens" \
+curl -s -X GET "https://api.wazoo.dev/v1/worlds/$WORLD_ID/auth/tokens" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN"
 ```
 
@@ -120,7 +130,7 @@ curl -s -X GET "https://api.wazoo.dev/v1/worlds/project-context/auth/tokens" \
 World tokens are scoped to a single world for data-plane access:
 
 ```bash
-curl -s -X POST "https://api.wazoo.dev/v1/worlds/project-context/auth/tokens" \
+curl -s -X POST "https://api.wazoo.dev/v1/worlds/$WORLD_ID/auth/tokens" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{ "name": "ci-data-access" }'
@@ -129,7 +139,7 @@ curl -s -X POST "https://api.wazoo.dev/v1/worlds/project-context/auth/tokens" \
 ### Revoke a world token
 
 ```bash
-curl -s -X DELETE "https://api.wazoo.dev/v1/worlds/project-context/auth/tokens/{tokenUid}" \
+curl -s -X DELETE "https://api.wazoo.dev/v1/worlds/$WORLD_ID/auth/tokens/{tokenUid}" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN"
 ```
 
@@ -140,7 +150,7 @@ curl -s -X DELETE "https://api.wazoo.dev/v1/worlds/project-context/auth/tokens/{
 Import RDF quads (JSON array) or chunk text into a world:
 
 ```bash
-curl -s -X POST "https://data.wazoo.dev/worlds/project-context/import" \
+curl -s -X POST "https://data.wazoo.dev/worlds/$WORLD_ID/import" \
   -H "Authorization: Bearer $WORLDS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -154,7 +164,7 @@ curl -s -X POST "https://data.wazoo.dev/worlds/project-context/import" \
 Search world graph memory by query text:
 
 ```bash
-curl -s -X POST "https://data.wazoo.dev/worlds/project-context/search" \
+curl -s -X POST "https://data.wazoo.dev/worlds/$WORLD_ID/search" \
   -H "Authorization: Bearer $WORLDS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -168,7 +178,7 @@ curl -s -X POST "https://data.wazoo.dev/worlds/project-context/search" \
 Run graph queries over triples/quads in the world:
 
 ```bash
-curl -s -X POST "https://data.wazoo.dev/worlds/project-context/sparql" \
+curl -s -X POST "https://data.wazoo.dev/worlds/$WORLD_ID/sparql" \
   -H "Authorization: Bearer $WORLDS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -181,6 +191,6 @@ curl -s -X POST "https://data.wazoo.dev/worlds/project-context/sparql" \
 Export world quads for auditing or local backup:
 
 ```bash
-curl -s -X GET "https://data.wazoo.dev/worlds/project-context/export?format=application/json&limit=100" \
+curl -s -X GET "https://data.wazoo.dev/worlds/$WORLD_ID/export?format=application/json&limit=100" \
   -H "Authorization: Bearer $WORLDS_TOKEN"
 ```

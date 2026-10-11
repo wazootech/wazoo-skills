@@ -36,7 +36,7 @@ curl -s -X GET "https://api.wazoo.dev/v1/worlds" \
 ### Create a world
 
 Create a world with a display name. `worlds-api` mints one immutable
-`w_<UUIDv4>` ID. The create request has display-name and optional-region fields, with no
+`w_<ULID>` ID. The create request has display-name and optional-region fields, with no
 caller-selected ID or slug field. The response exposes the ID as `world.id`;
 reuse it unchanged as `WORLD_ID`.
 
@@ -52,7 +52,7 @@ curl -s -X POST "https://api.wazoo.dev/v1/worlds" \
 For the examples below, replace this sample with the `id` returned above:
 
 ```bash
-export WORLD_ID="w_123e4567-e89b-42d3-a456-426614174000"
+export WORLD_ID="w_01jd8x5mqv7k3n9r2t4w6y8z0b"
 ```
 
 ### Get world details

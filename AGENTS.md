@@ -19,3 +19,12 @@ npx skills add wazootech/wazoo-skills --skill=<name>
 - When you add or change a published skill, update its page on
   docs.wazoo.dev under "Agents, skills, and MCP".
 - Keep files as LF. `.gitattributes` enforces this.
+
+## Code health
+
+Family-wide rules live in the [wazootech workspace constitution](https://github.com/wazootech/workspace/blob/main/AGENTS.md#code-health-standards); this repo's specifics:
+
+- Before pushing, confirm each `SKILL.md` has `name` and `description` frontmatter; CI enforces that and rejects legacy platform identity names. There is no formatter.
+- `.github/workflows/secret-scan.yml` runs gitleaks on every PR and push to `main`.
+- The action in `.github/workflows/ci.yml` is pinned to a commit SHA; `renovate.json` keeps it current.
+- `.github/CODEOWNERS` assigns `* @EthanThatOneKid`.

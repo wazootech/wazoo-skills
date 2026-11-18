@@ -45,7 +45,8 @@ curl -s -X POST "https://api.wazoo.dev/v1/worlds" \
   -H "Authorization: Bearer $WAZOO_PLATFORM_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "world": { "displayName": "Project Context Graph", "region": "auto" }
+    "displayName": "Project Context Graph",
+    "region": "auto"
   }'
 ```
 
